@@ -64,6 +64,22 @@ function updateGroupList() {
     });
 }
 
+document.getElementById('logoutButton').addEventListener('click', () => {
+    fetch('/logout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+    })
+    .then(response => response.json())
+    .then(data => {
+        statusDiv.textContent = data.status;
+    })
+    .catch(err => {
+        console.error(err);
+        statusDiv.textContent = 'Error during logout.';
+    });
+});
+
+
 // Event listener to send notifications
 document.getElementById('sendNotification').addEventListener('click', () => {
     const message = messageInput.value.trim();

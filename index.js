@@ -14,6 +14,12 @@ let isClientReady = false;
 
 // Initialize WhatsApp Client
 const initializeClient = () => {
+	
+	if (client) {
+        console.warn('Client is already initialized.');
+        return; // Prevent multiple initializations
+    }
+	
     client = new Client({ authStrategy: new LocalAuth() });
 
     client.on('qr', async (qr) => {
@@ -54,6 +60,33 @@ app.post('/send-notification', async (req, res) => {
     }
 
     res.json({ status: 'Notifications sent!' });
+});
+
+app.post('/logout', async (req, res) => {
+    if (client) {
+        try {
+            await client.logout(); // Log out the client
+			await client.destroy(); // destroy
+			isClientReady = false; // Update readiness status
+            client = null; // Reset client instance
+            console.log('Client logged out successfully.');
+			
+			
+			// Optionally wait before reinitializing
+            setTimeout(() => {
+                initializeClient(); // Reinitialize the client
+            }, 10000); // Adjust the delay as needed
+
+            res.json({ status: 'Client logged out successfully. You can scan the QR code to reconnect.' });
+        
+			
+        } catch (error) {
+            console.error('Error during logout:', error);
+            res.status(500).json({ status: 'Error during logout.' });
+        }
+    } else {
+        res.json({ status: 'No active client to log out.' });
+    }
 });
 
 // Start the server
