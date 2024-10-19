@@ -1,7 +1,7 @@
 const express = require('express');
 const { Client, LocalAuth } = require('whatsapp-web.js');
 const path = require('path');
-const qrcodeTerminal = require('qrcode-terminal'); // Import the qrcode-terminal library
+const qrcode = require('qrcode'); // Import qrcode library for generating QR codes
 
 const app = express();
 const PORT = 3000;
@@ -16,9 +16,10 @@ let isClientReady = false;
 const initializeClient = () => {
     client = new Client({ authStrategy: new LocalAuth() });
 
-    client.on('qr', (qr) => {
+    client.on('qr', async (qr) => {
         console.log('QR RECEIVED', qr);
-        qrcodeTerminal.generate(qr, { small: true }); // Display QR code in terminal
+        const qrImageUrl = await qrcode.toDataURL(qr); // Convert QR code to Data URL
+        app.locals.qrImageUrl = qrImageUrl; // Store QR image URL in app locals
     });
 
     client.on('ready', () => {
@@ -28,6 +29,11 @@ const initializeClient = () => {
 
     client.initialize();
 };
+
+// New route to get QR code image
+app.get('/qr-code', (req, res) => {
+    res.json({ qrCode: app.locals.qrImageUrl });
+});
 
 app.post('/send-notification', async (req, res) => {
     if (!isClientReady) {
