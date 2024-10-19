@@ -83,11 +83,14 @@ document.getElementById('logoutButton').addEventListener('click', () => {
 // Event listener to send notifications
 document.getElementById('sendNotification').addEventListener('click', () => {
     const message = messageInput.value.trim();
-    if (groups.length > 0 && message) {
+    const selectedPredefinedGroups = Array.from(document.querySelectorAll('.predefined-group-checkbox:checked')).map(checkbox => checkbox.value);
+    const allGroups = [...groups, ...selectedPredefinedGroups]; // Combine newly added and selected predefined groups
+
+    if (allGroups.length > 0 && message) {
         fetch('/send-notification', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ groups, message }),
+            body: JSON.stringify({ groups: allGroups, message }),
         })
         .then(response => response.json())
         .then(data => {
@@ -102,3 +105,54 @@ document.getElementById('sendNotification').addEventListener('click', () => {
         statusDiv.textContent = 'Please add groups and enter a message.';
     }
 });
+
+document.getElementById('selectAllButton').addEventListener('click', () => {
+    const checkboxes = document.querySelectorAll('.predefined-group-checkbox');
+    const allSelected = Array.from(checkboxes).every(checkbox => checkbox.checked);
+
+    checkboxes.forEach(checkbox => {
+        checkbox.checked = !allSelected; // If all are selected, deselect; otherwise, select all
+    });
+});
+
+
+
+const predefinedGroups = [
+    'Test',
+    'Test1'
+];
+
+// Function to render predefined groups with checkboxes
+function renderPredefinedGroups() {
+    const predefinedGroupsDiv = document.getElementById('predefinedGroups');
+    predefinedGroupsDiv.innerHTML = '';
+
+    predefinedGroups.forEach(group => {
+        const container = document.createElement('div'); // Flex container
+        container.style.display = 'flex'; // Use flexbox for alignment
+        container.style.justifyContent = 'space-between'; // Space between elements
+        container.style.alignItems = 'center'; // Center items vertically
+        container.style.marginBottom = '5px'; // Add some spacing between rows
+
+        const label = document.createElement('label');
+        label.textContent = group;
+        label.style.flex = '1'; // Allow the label to take available space
+        label.style.marginRight = '10px'; // Optional spacing between label and checkbox
+
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.value = group;
+        checkbox.className = 'predefined-group-checkbox'; // Class for easy selection later
+
+        container.appendChild(label);
+        container.appendChild(checkbox);
+
+        predefinedGroupsDiv.appendChild(container);
+    });
+}
+
+// Call the function to render the predefined groups on page load
+renderPredefinedGroups();
+
+
+
