@@ -3,20 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WhatsApp Notifier</title>
+    <title>SI - Admin Portal</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <h1>WhatsApp Notifier</h1>
+        <h1 class="centered">SIDDEEQA INSTITUTE</h1>
+        <h4 class="centered">WhatsApp Reminder - Admin Portal</h4>
         <div>
-            <h2>Groups</h2>
-            <input type="text" id="groupName" placeholder="Group Name">
-            <button id="addGroup">Add Group</button>
+            <h4>Groups</h4>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <input type="text" id="groupName" placeholder="Group Name" style="flex: 1; margin-right: 10px;">
+                <button id="addGroup" style="width: 80px;">Add Group</button>
+            </div>
         </div>
+
         <ul id="groupList"></ul>
         <div>
-            <h2>Message</h2>
+            <h4>Message</h4>
             <textarea id="message" placeholder="Type your message here..."></textarea>
         </div>
         <button id="sendNotification">Send Notification</button>

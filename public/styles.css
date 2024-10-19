@@ -11,28 +11,62 @@ body {
     background: white;
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 h1, h2 {
     color: #333;
 }
 
-input, textarea, button {
-    width: 100%;
-    margin: 10px 0;
+input, textarea {
+    width: 95%;
+    margin: 10px 0px;
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 4px;
 }
 
 button {
-    background-color: #5cb85c;
-    color: white;
+    padding: 10px;
     border: none;
     cursor: pointer;
+    font-size: 0.8em; /* Smaller font size for buttons */
 }
 
-button:hover {
-    background-color: #4cae4c;
+button#addGroup {
+    width: 80px; /* Fixed width for the Add Group button */
+    background-color: #5cb85c; /* Green background */
+    color: white; /* White text color */
+}
+
+button#addGroup:hover {
+    background-color: #4cae4c; /* Darker green on hover */
+}
+
+ul {
+    list-style-type: none; /* Remove bullets from list */
+    padding: 0; /* Remove default padding */
+}
+
+li {
+    display: flex;
+    justify-content: space-between; /* Space between name and button */
+    align-items: center; /* Center items vertically */
+    margin: 5px 0; /* Space between list items */
+}
+
+button.remove {
+    width: 80px; /* Fixed width for Remove buttons */
+    background-color: red; /* Red background */
+    color: white; /* White text color */
+}
+
+button.remove:hover {
+    background-color: darkred; /* Darker red on hover */
+}
+
+
+.centered {
+    text-align: center; /* Center-align text */
+    margin: 0; /* Remove default margin */
 }
