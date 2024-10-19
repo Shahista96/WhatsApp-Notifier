@@ -21,7 +21,7 @@ const fetchQRCode = () => {
 };
 
 // Call fetchQRCode periodically to update QR code if needed
-setInterval(fetchQRCode, 300000); // Fetch every 5 mins
+setInterval(fetchQRCode, 3000); // Fetch every 5 mins
 
 // Event listener to add a group
 document.getElementById('addGroup').addEventListener('click', () => {
